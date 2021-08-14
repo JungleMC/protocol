@@ -11,7 +11,7 @@ type Packet interface {
 }
 
 func NewPacket(state ConnectionState, direction Direction, id int32) Packet {
-	if direction != ServerToClient {
+	if direction == ServerToClient {
 		switch state {
 		case Handshake:
 			return clientboundHandshakePacket(id)

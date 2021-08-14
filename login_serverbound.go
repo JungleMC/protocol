@@ -29,14 +29,14 @@ func (p *EncryptionResponse) Id() int32 {
 
 func (p *EncryptionResponse) Encode() []byte {
 	return append(
-		WriteByteSlice(p.VerifyToken),
-		WriteByteSlice(p.SharedSecret)...,
+		WriteByteSlice(p.SharedSecret),
+		WriteByteSlice(p.VerifyToken)...,
 	)
 }
 
 func (p *EncryptionResponse) Decode(buf *bufio.Reader) {
-	p.VerifyToken = ReadByteSlice(buf)
 	p.SharedSecret = ReadByteSlice(buf)
+	p.VerifyToken = ReadByteSlice(buf)
 }
 
 type LoginPluginResponse struct {

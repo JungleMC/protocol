@@ -55,7 +55,6 @@ func (p *LegacyPingPacket) Id() int32 {
 func (p *LegacyPingPacket) Encode() []byte {
 	buf := make([]byte, 0)
 	buf = append(buf, p.Payload)
-	buf = append(buf, p.ProtocolVersion)
 	buf = append(buf, p.PluginMessage)
 
 	pingHostBytes, _ := utfEncoder.Bytes([]byte(pingHostText))
@@ -64,6 +63,7 @@ func (p *LegacyPingPacket) Encode() []byte {
 
 	hostnameBytes, _ := utfEncoder.Bytes([]byte(p.Hostname))
 	buf = append(buf, WriteInt16(int16(remainingBytes+len(hostnameBytes)))...)
+	buf = append(buf, p.ProtocolVersion)
 	buf = append(buf, hostnameBytes...)
 
 	return append(buf, WriteInt32(p.Port)...)
@@ -71,14 +71,16 @@ func (p *LegacyPingPacket) Encode() []byte {
 
 func (p *LegacyPingPacket) Decode(buf *bufio.Reader) {
 	p.Payload, _ = buf.ReadByte()
-	p.ProtocolVersion, _ = buf.ReadByte()
 	p.PluginMessage, _ = buf.ReadByte()
 
-	pingHostLen := ReadUint16(buf)
+	pingHostLen := ReadInt16(buf)
 	pingHost := make([]byte, pingHostLen)
 	buf.Read(pingHost)
 
 	remaining := ReadInt16(buf)
+
+	p.ProtocolVersion, _ = buf.ReadByte()
+
 	hostnameBytes := make([]byte, remaining-remainingBytes)
 	buf.Read(hostnameBytes)
 	hostnameBytes, _ = utfDecoder.Bytes(hostnameBytes)
