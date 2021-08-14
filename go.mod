@@ -1,4 +1,4 @@
-module github.com/JungleTree/protocol
+module github.com/JungleMC/protocol
 
 go 1.16
 
