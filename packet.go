@@ -55,9 +55,9 @@ func serverboundHandshakePacket(id int32) Packet {
 func clientboundStatusPacket(id int32) Packet {
 	switch id {
 	case 0x00:
-		return &StatusResponsePacket{}
+		return &StatusResponse{}
 	case 0x01:
-		return &StatusPongPacket{}
+		return &StatusPong{}
 	}
 	return nil
 }
@@ -65,9 +65,9 @@ func clientboundStatusPacket(id int32) Packet {
 func serverboundStatusPacket(id int32) Packet {
 	switch id {
 	case 0x00:
-		return &StatusRequestPacket{}
+		return &StatusRequest{}
 	case 0x01:
-		return &StatusPingPacket{}
+		return &StatusPing{}
 	}
 	return nil
 }
@@ -75,13 +75,13 @@ func serverboundStatusPacket(id int32) Packet {
 func clientboundLoginPacket(id int32) Packet {
 	switch id {
 	case 0x00:
-		return &DisconnectPacket{}
+		return &Disconnect{}
 	case 0x01:
 		return &EncryptionRequest{}
 	case 0x02:
 		return &LoginSuccess{}
 	case 0x03:
-		return &SetCompressionPacket{}
+		return &SetCompression{}
 	case 0x04:
 		return &LoginPluginRequest{}
 	}
@@ -91,9 +91,9 @@ func clientboundLoginPacket(id int32) Packet {
 func serverboundLoginPacket(id int32) Packet {
 	switch id {
 	case 0x00:
-		return &LoginStartPacket{}
+		return &LoginStart{}
 	case 0x01:
-		return &EncryptionResponsePacket{}
+		return &EncryptionResponse{}
 	case 0x02:
 		return &LoginPluginResponse{}
 	}

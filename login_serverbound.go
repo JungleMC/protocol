@@ -2,39 +2,39 @@ package protocol
 
 import "bufio"
 
-type LoginStartPacket struct {
+type LoginStart struct {
 	Username string
 }
 
-func (p *LoginStartPacket) Id() int32 {
+func (p *LoginStart) Id() int32 {
 	return 0x00
 }
 
-func (p *LoginStartPacket) Encode() []byte {
+func (p *LoginStart) Encode() []byte {
 	return WriteString(p.Username)
 }
 
-func (p *LoginStartPacket) Decode(buf *bufio.Reader) {
+func (p *LoginStart) Decode(buf *bufio.Reader) {
 	p.Username = ReadString(buf)
 }
 
-type EncryptionResponsePacket struct {
+type EncryptionResponse struct {
 	SharedSecret []byte
 	VerifyToken  []byte
 }
 
-func (p *EncryptionResponsePacket) Id() int32 {
+func (p *EncryptionResponse) Id() int32 {
 	return 0x01
 }
 
-func (p *EncryptionResponsePacket) Encode() []byte {
+func (p *EncryptionResponse) Encode() []byte {
 	return append(
 		WriteByteSlice(p.VerifyToken),
 		WriteByteSlice(p.SharedSecret)...,
 	)
 }
 
-func (p *EncryptionResponsePacket) Decode(buf *bufio.Reader) {
+func (p *EncryptionResponse) Decode(buf *bufio.Reader) {
 	p.VerifyToken = ReadByteSlice(buf)
 	p.SharedSecret = ReadByteSlice(buf)
 }

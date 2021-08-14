@@ -2,30 +2,30 @@ package protocol
 
 import "bufio"
 
-type StatusRequestPacket struct{}
+type StatusRequest struct{}
 
-func (p *StatusRequestPacket) Id() int32 {
+func (p *StatusRequest) Id() int32 {
 	return 0x00
 }
 
-func (p *StatusRequestPacket) Encode() []byte {
+func (p *StatusRequest) Encode() []byte {
 	return []byte{}
 }
 
-func (p *StatusRequestPacket) Decode(_ *bufio.Reader) {}
+func (p *StatusRequest) Decode(_ *bufio.Reader) {}
 
-type StatusPingPacket struct {
+type StatusPing struct {
 	Time int64
 }
 
-func (p *StatusPingPacket) Id() int32 {
+func (p *StatusPing) Id() int32 {
 	return 0x01
 }
 
-func (p *StatusPingPacket) Encode() []byte {
+func (p *StatusPing) Encode() []byte {
 	return WriteInt64(p.Time)
 }
 
-func (p *StatusPingPacket) Decode(buf *bufio.Reader) {
+func (p *StatusPing) Decode(buf *bufio.Reader) {
 	p.Time = ReadInt64(buf)
 }

@@ -5,19 +5,19 @@ import (
 	"github.com/google/uuid"
 )
 
-type DisconnectPacket struct {
+type Disconnect struct {
 	Reason string // TODO: chat message json
 }
 
-func (p *DisconnectPacket) Id() int32 {
+func (p *Disconnect) Id() int32 {
 	return 0x00
 }
 
-func (p *DisconnectPacket) Encode() []byte {
+func (p *Disconnect) Encode() []byte {
 	return WriteString(p.Reason)
 }
 
-func (p *DisconnectPacket) Decode(buf *bufio.Reader) {
+func (p *Disconnect) Decode(buf *bufio.Reader) {
 	p.Reason = ReadString(buf)
 }
 
@@ -61,19 +61,19 @@ func (p *LoginSuccess) Decode(buf *bufio.Reader) {
 	p.Username = ReadString(buf)
 }
 
-type SetCompressionPacket struct {
+type SetCompression struct {
 	Threshold int32
 }
 
-func (p *SetCompressionPacket) Id() int32 {
+func (p *SetCompression) Id() int32 {
 	return 0x03
 }
 
-func (p *SetCompressionPacket) Encode() []byte {
+func (p *SetCompression) Encode() []byte {
 	return WriteVarInt32(p.Threshold)
 }
 
-func (p *SetCompressionPacket) Decode(buf *bufio.Reader) {
+func (p *SetCompression) Decode(buf *bufio.Reader) {
 	p.Threshold = ReadVarInt32(buf)
 }
 
